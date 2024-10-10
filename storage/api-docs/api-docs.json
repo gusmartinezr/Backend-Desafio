@@ -1,0 +1,285 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de Reserva de Espacios",
+        "description": "Documentación de la API para la gestión de reservas de espacios para eventos",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Registrar un nuevo usuario",
+                "description": "Endpoint para registrar un nuevo usuario en el sistema",
+                "operationId": "8a56853624e025573120a09a4c75d468",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro exitoso"
+                    },
+                    "400": {
+                        "description": "Datos inválidos"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Iniciar sesión de un usuario",
+                "description": "Autenticar un usuario y obtener un token JWT",
+                "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inicio de sesión exitoso"
+                    },
+                    "401": {
+                        "description": "Credenciales inválidas"
+                    }
+                }
+            }
+        },
+        "/api/espacios": {
+            "get": {
+                "tags": [
+                    "Espacios"
+                ],
+                "summary": "Obtener todos los espacios",
+                "description": "Retorna una lista de todos los espacios disponibles",
+                "operationId": "5b30a51c97d21af853cacca0c49ab978",
+                "responses": {
+                    "200": {
+                        "description": "Lista de espacios"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Espacios"
+                ],
+                "summary": "Crear un nuevo espacio",
+                "description": "Registrar un nuevo espacio en el sistema",
+                "operationId": "d03ef5ee956c549c1a8371ae4d24fc39",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Sala A"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Sala de conferencias"
+                                    },
+                                    "capacidad": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "ubicacion": {
+                                        "type": "string",
+                                        "example": "Edificio 1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Espacio creado exitosamente"
+                    },
+                    "400": {
+                        "description": "Datos inválidos"
+                    }
+                }
+            }
+        },
+        "/api/espacios/{id}": {
+            "get": {
+                "tags": [
+                    "Espacios"
+                ],
+                "summary": "Obtener un espacio por ID",
+                "description": "Retorna los detalles de un espacio específico",
+                "operationId": "e426367fc6788a5cc54af7230faa86ff",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del espacio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del espacio"
+                    },
+                    "404": {
+                        "description": "Espacio no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/reservas": {
+            "get": {
+                "tags": [
+                    "Reservas"
+                ],
+                "summary": "Obtener todas las reservas del usuario autenticado",
+                "description": "Retorna una lista de las reservas realizadas por el usuario autenticado",
+                "operationId": "8536ca90a9f5ba3709643c0493395478",
+                "responses": {
+                    "200": {
+                        "description": "Lista de reservas"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Reservas"
+                ],
+                "summary": "Crear una nueva reserva",
+                "description": "Registrar una nueva reserva para un espacio",
+                "operationId": "3b0d25aeb18200cc0887c6cb9d929934",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "espacio_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "nombre_evento": {
+                                        "type": "string",
+                                        "example": "Conferencia Anual"
+                                    },
+                                    "fecha_inicio": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-12-01T10:00:00"
+                                    },
+                                    "fecha_fin": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-12-01T12:00:00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Reserva creada exitosamente"
+                    },
+                    "409": {
+                        "description": "Conflicto de horarios"
+                    },
+                    "400": {
+                        "description": "Datos inválidos"
+                    }
+                }
+            }
+        },
+        "/api/reservas/{id}": {
+            "get": {
+                "tags": [
+                    "Reservas"
+                ],
+                "summary": "Obtener una reserva por ID",
+                "description": "Retorna los detalles de una reserva específica del usuario autenticado",
+                "operationId": "12b2a5f422f7abede6bff94de0d990f6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la reserva",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la reserva"
+                    },
+                    "404": {
+                        "description": "Reserva no encontrada"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Espacios",
+            "description": "Espacios"
+        },
+        {
+            "name": "Reservas",
+            "description": "Reservas"
+        }
+    ]
+}
